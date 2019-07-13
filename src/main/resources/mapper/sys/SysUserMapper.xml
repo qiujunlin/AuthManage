@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cy.pj.sys.dao.SysUserDao">
+	<resultMap type="com.cy.pj.common.vo.SysUserDeptVo"
+		id="sysUserMap">
+		<association property="sysDept" column="deptId"
+			select="com.cy.pj.sys.dao.SysDeptDao.findDeptById">
+		</association>
+	</resultMap>
+	<select id="findObjectById"
+           parameterType="int"
+           resultMap="sysUserMap">
+           select * 
+           from sys_users   
+           where id=#{id}     
+   </select>
+	<select id="findPageObjects" resultMap="sysUserMap">
+		select *
+		from sys_users
+		<include refid="queryWhereId" />
+		order by createdTime desc
+		limit #{startIndex},#{pageSize}
+	</select>
+
+	<select id="getRowCount" resultType="int">
+		select count(*)
+		from sys_users
+		<include refid="queryWhereId" />
+	</select>
+	<!-- 借助此元素对共性数据进行提取 -->
+	<sql id="queryWhereId">
+		<where>
+			<if test="name!=null and name!=''">
+				username like concat("%",#{name},"%")
+			</if>
+		</where>
+	</sql>
+	<select id="getUserCountByDeptId">
+		select count(*) from sys_users where deptId=#{id}
+	</select>
+	<update id="validById">
+	update sys_users set valid=#{valid},modifiedUser=#{modifiedUser},modifiedTime=now() where id=#{id} 
+	</update>
+	<insert id="insertObject"
+           parameterType="com.cy.pj.sys.entity.SysUser"
+           useGeneratedKeys="true"
+           keyProperty="id">
+      insert into sys_users
+      (username,password,deptId,email,mobile,salt,valid,
+      createdTime,modifiedTime,createdUser,modifiedUser)
+      values
+    (#{username},#{password},#{deptId},#{email},#{mobile},#{salt},#{valid},
+      now(),now(),#{createdUser},#{modifiedUser})
+   </insert>
+   <update id="updateObject" parameterType="com.cy.pj.sys.entity.SysUser">
+          update sys_users
+          <set>
+             <if test="username!=null and username!=''">
+               username=#{username},
+             </if>
+             <if test="email!=null and email!=''">
+                  email=#{email},
+             </if>
+             <if test="mobile!=null and mobile!=''">
+                mobile=#{mobile},
+             </if>
+<if test="deptId!=null and deptId!=''">
+                deptId=#{deptId},
+             </if>
+
+             <if test="modifiedUser!=null and modifiedUser!=''">
+                modifiedUser=#{modifiedUser},
+             </if>
+             modifiedTime=now()
+          </set>
+          where id=#{id}      
+   </update>
+</mapper>
+  
+  

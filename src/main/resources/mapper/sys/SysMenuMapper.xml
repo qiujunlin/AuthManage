@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cy.pj.sys.dao.SysMenuDao">
+	<select id="findObjects" resultType="Map">
+		select c.*,(
+		select p.name
+		from sys_menus p
+		where c.parentId=p.id
+		) parentName
+		from sys_menus c
+	</select>
+	<select id="findZtreeMenuNodes"
+		resultType="com.cy.pj.common.vo.Node">
+		select id,name,parentId
+		from sys_menus
+	</select>
+	<insert id="insertObject"
+		parameterType="com.cy.pj.sys.entity.SysMenu">
+		insert into sys_menus values(#{name},#{url},#{type},#{sort},
+		#{note},#{parentId},#{permission},#{createdTime},#{modifiedUser},now(),now())
+	</insert>
+	<update id="updateObject">
+		update sys_menus set name=#{name},url=#{url},type=#{type},sort=#{sort},
+		note= #{note},parentId=#{parentId},permission=#{permission},
+		createdTime=#{createdTime},modifiedUser=#{modifiedUser},modifiedTime=now()
+		where id=#{id}
+	</update>
+
+</mapper>
