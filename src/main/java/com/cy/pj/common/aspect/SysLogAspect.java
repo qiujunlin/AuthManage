@@ -72,6 +72,7 @@ public class SysLogAspect {
 		
 		
 		
+		
 		Method method =ms.getMethod();
 		String urlString = tagetCls.getName()+method.getName();
 		//1.2获取目标方法执行时的实际参数(通过连接点获取)
