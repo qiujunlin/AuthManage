@@ -7,7 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>动吧 | Starter</title>
+  <title>AuthManage</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
@@ -64,9 +64,9 @@ desired effect
     <!-- Logo -->
     <a href="index2.html" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini">动吧旅游</span>
+      <span class="logo-mini">AuthManage</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg">动吧旅游</span>
+      <span class="logo-lg">AuthManage</span>
     </a>
 
     <!-- Header Navbar -->
@@ -251,11 +251,11 @@ desired effect
         <li class="header">HEADER</li>
         <!-- Optionally, you can add icons to the links -->
         <li class="active">
-        <a href="#"><i class="fa fa-link"></i> 
-        <span>商品管理</span></a></li>        
+        <a href="#"><i class="fa fa-dashboard"></i> 
+        <span id="load-index-id">仪表盘</span></a></li>        
         
         <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> 
+          <a href="#"><i class="glyphicon glyphicon-cog"></i> 
           <span>系统管理</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
@@ -268,6 +268,35 @@ desired effect
             <li><a id="load-user-id">用户管理</a></li>
             <li><a id="load-log-id"> 日志管理</a></li>
             <li><a id="load-pwd-id"> 修改密码</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#"><i class="glyphicon glyphicon-bell"></i> 
+          <span>系统监控</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a id="load-dept-id">数据监控</a></li>
+            <li><a id="load-menu-id">redis监控</a></li>
+            <li><a id="load-role-id">访问日志</a></li>
+            <li><a id="load-user-id">系统日志</a></li>
+          
+          </ul>
+        </li>
+         <li class="treeview">
+          <a href="#"><i class="glyphicon glyphicon-time"></i> 
+          <span>任务调度</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a id="load-dept-id">定时任务</a></li>
+            <li><a id="load-menu-id">调度日志</a></li>
+            
+          
           </ul>
         </li>
       </ul>
@@ -419,7 +448,7 @@ desired effect
 	  doLoadUI("load-role-id","role/role_list")
 	  doLoadUI("load-user-id","user/user_list")
 	  doLoadUI("load-dept-id","dept/dept_list")
-	  doLoadUI("load-pwd-id","user/pwd_edit")
+	  doLoadUI("load-index-id","index/index")
    });
    function doLoadUI(id,url){
 	   $("#"+id).click(function(){
