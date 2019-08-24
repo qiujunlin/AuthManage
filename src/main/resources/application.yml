@@ -1,0 +1,46 @@
+server:
+  port: 80
+  servlet:
+    context-path: /
+    
+mybatis:
+ #引入映射文件
+  type-aliases-package: com.cy.pj.sys.entity
+  mapper-locations: classpath:/mapper/sys/*.xml
+  #开启驼峰映射   简化操作
+  configuration:
+    map-underscore-to-camel-case: true
+    
+#actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/pages/
+    suffix: .html
+
+  datasource:
+    name: druidDataSource
+    #配置DruidDatasouce连接池
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      #连接数据库
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/jtsys?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
+      username: root
+      password: 123456
+      #druid配置详情信息
+      max-active: 100  #最大连接数
+      initial-size: 1  #初始化连接数
+      max-wait: 60000  #获取最大等待时间
+      min-idle: 1 #最小连接数
+      validation-query: select 'x'  #
+      time-between-eviction-runs-millis: 60000   #一个连接在池中最小生存的时间，单位是毫秒
+      min-evictable-idle-time-millis: 300000     #间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      pool-prepared-statements: false            #是否缓存preparedStatement 在mysql的环境下建议关闭 因为对数据库性能消耗大
+      max-open-prepared-statements: 50           
+      max-pool-prepared-statement-per-connection-size: 20
+      filters: stat,wall   #配置监控统计拦截的filters，去掉后监控界面SQL无法进行统计，'wall'用于防火墙

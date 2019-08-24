@@ -19,7 +19,7 @@
             where role_id=#{id} 
  </select>
  <delete id="deleteObjectsByMenuId"
-             parameterType="int">
+             parameterType="Integer">
           delete from sys_role_menus
           where menu_id=#{menuId}
      </delete>

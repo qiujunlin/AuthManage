@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.cy.pj.common.vo.CheckBox;
 import com.cy.pj.common.vo.SysUserDeptVo;
+import com.cy.pj.sys.entity.SysLoginLog;
 import com.cy.pj.sys.entity.SysUser;
 
 
@@ -20,4 +21,5 @@ public interface SysUserService extends BaseSrvice<SysUserDeptVo>{
 	int updatePassword(String password,
 	           String newPassword,
 	           String cfgPassword);
+	void saveLoginInfo(SysLoginLog sysLoginLog);
 }

@@ -10,27 +10,46 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cy.pj.common.annotation.RequiredLog;
 import com.cy.pj.common.exception.ServiceException;
 import com.cy.pj.common.vo.CheckBox;
+import com.cy.pj.common.vo.PageObject;
 import com.cy.pj.common.vo.SysUserDeptVo;
-import com.cy.pj.sys.dao.BaseDao;
 import com.cy.pj.sys.dao.SysUserDao;
+import com.cy.pj.sys.dao.SysUserLoginDao;
 import com.cy.pj.sys.dao.SysUserRoleDao;
+import com.cy.pj.sys.entity.SysLoginLog;
 import com.cy.pj.sys.entity.SysUser;
 import com.cy.pj.sys.service.SysUserService;
 
 import io.micrometer.core.instrument.util.StringUtils;
 @Service
-public class SysUserServiceImpl extends BaseServiceImpl<SysUserDeptVo> implements SysUserService {
-	SysUserDao sysUserDao;
-	SysUserRoleDao sysUserRoleDao;
+public class SysUserServiceImpl implements SysUserService  {
 	@Autowired
-	public SysUserServiceImpl(BaseDao<SysUserDeptVo> pageDao,SysUserDao sysUserDao,	SysUserRoleDao sysUserRoleDao) {
-		super(pageDao);
-		this.sysUserDao=sysUserDao;
-		this.sysUserRoleDao=sysUserRoleDao;
+	SysUserDao sysUserDao;
+	@Autowired
+	SysUserRoleDao sysUserRoleDao;
+
+	public PageObject<SysUserDeptVo> findPageObjects(String name, Integer pageCurrent) {
+		//验证参数有有效性
+		if(pageCurrent==null||pageCurrent<1) throw new IllegalArgumentException("传入的页码错误！！");
+		//查询总记录数并校验
+		int rows = sysUserDao.getRowCount(name);
+		if(rows==0) throw new ServiceException("记录不存在");
+		int pageSize = 12;
+		//查询当前页需要呈现的记录
+		int startIndex =(pageCurrent-1)*pageSize;
+		List<SysUserDeptVo> list = sysUserDao.findPageObjects(name, startIndex, pageSize);
+		PageObject<SysUserDeptVo> pageObject = new PageObject<>();
+		pageObject.setPageCount((rows-1)/pageSize+1);
+		pageObject.setPageCurrent(pageCurrent);
+		pageObject.setRecords(list);
+		pageObject.setPageSize(pageSize);
+		pageObject.setRowCount(rows);
+		return  pageObject;
+
 	}
 	@RequiresPermissions("sys.user.valid")
 	@Override
@@ -140,5 +159,12 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserDeptVo> implement
 		if(rows==0)
 		throw new ServiceException("修改失败");
 		return rows;
+	}
+	@Autowired
+	SysUserLoginDao sysUserLoginDao;
+	@Override
+	@Transactional
+	public void saveLoginInfo(SysLoginLog sysLoginLog) {
+  		 sysUserLoginDao.saveLoginInfo(sysLoginLog);
 	}
 }

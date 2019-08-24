@@ -3,9 +3,12 @@ package com.cy.pj.sys.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+
 import lombok.Data;
 import lombok.ToString;
 @Data
+@TableName(value = "sys_users")
 @ToString
 public class SysUser implements Serializable {
 	private static final long serialVersionUID = -891932357952171147L;
