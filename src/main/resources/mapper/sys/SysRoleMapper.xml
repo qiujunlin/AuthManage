@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cy.pj.sys.dao.SysRoleDao">
+	<select id="findPageObjects"
+		resultType="com.cy.pj.sys.entity.SysRole">
+		select *
+		from sys_roles
+		<include refid="queryWhereId" />
+		order by createdTime desc
+		limit #{startIndex},#{pageSize}
+	</select>
+	<sql id="queryWhereId">
+		<where>
+			<if test="name!=null and name!=''">
+				name like concat("%",#{name},"%")
+			</if>
+		</where>
+	</sql>
+	<select id="getRowCount" resultType="int">
+		select count(*)
+		from sys_roles
+		<include refid="queryWhereId" />
+	</select>
+	<delete id="deleteObject">
+		delete from sys_roles where id=#{id}
+	</delete>
+	<insert id="insertObject"
+		parameterType="com.cy.pj.sys.entity.SysRole" useGeneratedKeys="true"
+		keyProperty="id">
+
+		insert into sys_roles
+		(id,name,note,createdTime,modifiedTime,
+		createdUser,modifiedUser)
+		values
+		(null,#{name},#{note},now(),now(),
+		#{createdUser},#{modifiedUser})
+
+	</insert>
+	<resultMap type="com.cy.pj.common.vo.SysRoleMenuVo"
+		id="sysRoleMenu">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="note" column="note" />
+		<collection property="menuIds" column="id"
+			select="com.cy.pj.sys.dao.SysRoleMenuDao.findMenuIdsByRoleId">
+		</collection>
+	</resultMap>
+	<select id="findObjectById" resultMap="sysRoleMenu">
+		select id,name,note from sys_roles where id=#{id}
+	</select>
+	<update id="updateObject"
+		parameterType="com.cy.pj.sys.entity.SysRole">
+		update sys_roles
+
+		<set>
+			<if test="name!=null and name!=''">
+				name=#{name},
+			</if>
+			<if test="note!=null and note!=''">
+				note=#{note},
+			</if>
+			<if test="modifiedUser!=null and modifiedUser!=''">
+				modifiedUser=#{modifiedUser},
+			</if>
+			modifiedTime=now()
+		</set>
+		where id=#{id}
+	</update>
+	<select id="findObjects" resultType="com.cy.pj.common.vo.CheckBox">
+	select id,name from sys_roles;
+	</select>
+
+</mapper>
+ 
