@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cy.pj.common.util.AddressUtil;
 import com.cy.pj.common.util.IPUtils;
 import com.cy.pj.common.vo.CheckBox;
 import com.cy.pj.common.vo.JsonResult;
@@ -94,7 +95,7 @@ public class SysUserController {
 		String browserInfo=browser.toString();
 		OperatingSystem operatingSystem = userAgent.getOperatingSystem();
 		String system=operatingSystem.toString();
-        sysLoginLog.setLocation(getMacAddrByIp(sysLoginLog.getIp()));
+        sysLoginLog.setLocation(AddressUtil.getCityInfo(sysLoginLog.getIp()));
 		sysLoginLog.setBrowser(browserInfo);
 		sysLoginLog.setSystem(system);
 

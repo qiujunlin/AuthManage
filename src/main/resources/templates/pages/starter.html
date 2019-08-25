@@ -7,7 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>动吧 | Starter</title>
+  <title>Auth| Starter</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
@@ -32,9 +32,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 
-  <!-- Google Font -->
-  		<link href='http://localhost/druid/css/bootstrap.min.css' rel="stylesheet" />
-		<link href="http://localhost/druid/css/style.css" type="text/css" rel="stylesheet"/>
+
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -65,9 +63,9 @@ desired effect
     <!-- Logo -->
     <a href="index2.html" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini">动吧旅游</span>
+      <span class="logo-mini">AuthMange</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg">动吧旅游</span>
+      <span class="logo-lg">AuthManage</span>
     </a>
 
     <!-- Header Navbar -->
@@ -182,7 +180,7 @@ desired effect
               <!-- The user image in the navbar-->
               <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">Alexander Pierce</span>
+              <span class="hidden-xs">睡不着显示</span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
@@ -251,7 +249,7 @@ desired effect
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">HEADER</li>
         <!-- Optionally, you can add icons to the links -->
-       <li class="active">
+       <li class="treeview">
         <a href="#"><i class="fa fa-dashboard"></i> 
         <span id="load-index-id">仪表盘</span></a></li>        
         
@@ -279,10 +277,12 @@ desired effect
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a id="load-log-id"> 日志管理</a></li>
+            <li><a id="load-log-id"> 操作管理</a></li>
+            <li><a id="load-loginlog-id">登录日志</a></li>
             <li><a id="load-druid-id">数据监控</a></li>
             <li><a id="load-menu-id">redis监控</a></li>
-            <li><a id="load-role-id">访问日志</a></li>
+            <li><a id="load-map-id">地图</a></li>
+         
           
           </ul>
         </li>
@@ -300,6 +300,10 @@ desired effect
           
           </ul>
         </li>
+        <li class="treeview">
+        <a href="#"><i class="glyphicon glyphicon-tags"></i> 
+        <span id="load-github-id">github地址</span></a></li>        
+        
       </ul>
       <!-- /.sidebar-menu -->
     </section>
@@ -442,9 +446,6 @@ desired effect
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
-<!-- <script src="druid/js/jquery.min.js"></script>
-    	<script src="druid/js/lang.js"  charset="utf8"></script>
-		<script src="druid/js/common.js"  charset="utf8"></script> -->
 <script type="text/javascript">
    $(function(){ 
 	 
@@ -457,35 +458,54 @@ desired effect
 	  doLoadUI("load-index-id","index/index")
 	  //系统监控
 	  doLoadDruid("load-druid-id","http://localhost/druid/index.html")
+	  doLoadUI("load-loginlog-id","log/login_log")
 	  doLoadUI("load-log-id","log/log_list");
+	  //github地址
+	   doLoadgit("load-github-id","https://github.com/qiujunlin/AuthManage.git")
+	  //d地图
+	  doLoadMap("load-map-id","sys/map")
    });
+   /* 地位系统页 */
    function doLoadUI(id,url){
 	   $("#"+id).click(function(){
 			  //load函数是将url对应的资源加载到指定位置
 		  $("#mainContentId").load(url);
 	   });  
    }
-   function doLoadDruid(id,url){
-	   $("#"+id).click(function(){
-			  //load函数是将url对应的资源加载到指定位置
-			load_home();
-		  /* $("#mainContentId").load(url,function(){
-			  $.getScript("http://localhost/js/jquery.min.js");
-				 $.getScript("http://localhost/js/lang.js");
-				 $.getScript("http://localhost/js/common.js");
-		  });
-			 */
-		
-		 
-	   });  
-   }
-   function load_home() {
-	   document.getElementById("mainContentId").innerHTML = '<object type="text/html" data="http://localhost/druid/index.html" width=100% height=800px></object>';
-	     }
+   /*  定位登录首页*/
    function doLoad(id,url){
 		  //load函数是将url对应的资源加载到指定位置
 	  $("#mainContentId").load(url); 
 }
+   /*  定位github地址 弹出新的页面*/
+   function doLoadgit(id,url){
+	   $("#"+id).click(function(){
+			  //load函数是将url对应的资源加载到指定位置
+		   window.open(url);
+	   });  
+}
+   /* 展示druid监控 */
+   function doLoadDruid(id,url){
+	   $("#"+id).click(function(){
+			  //load函数是将url对应的资源加载到指定位置
+			loadDruid();
+	   });  
+   }
+   function loadDruid() {
+	   document.getElementById("mainContentId").innerHTML = '<object type="text/html" data="http://localhost/druid/index.html" width=100% height=500px></object>';
+	     }
+   /* 定位高德地图 */
+   function doLoadMap(id,url){
+	   $("#"+id).click(function(){
+			  //load函数是将url对应的资源加载到指定位置
+			doLoadmap();
+	   });  
+   }
+   function doLoadmap() {
+	   document.getElementById("mainContentId").innerHTML = '<object type="text/html" data="sys/map" width=100% height=500px></object>';
+	     }
+  
+  
 </script>
 </body>
 </html>
