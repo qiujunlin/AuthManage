@@ -1,0 +1,193 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>预约地点</title>
+    <link rel="stylesheet" href="https://cache.amap.com/lbs/static/main1119.css"/>
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.10&key=1a327b6880cba1431c546006a32d2487&plugin=AMap.Autocomplete,AMap.PlaceSearch"></script>
+    <script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script>
+    <style type="text/css">
+	   #panel {
+	       position: absolute;
+	       background-color: white;
+	       max-height: 90%;
+	       overflow-y: auto;
+	       top: 80px;
+	       right: 10px;
+	       width: 280px;
+	   }
+    </style>
+</head>
+<body>
+<div id="container" style="width: 100%;height: 100%"></div>
+<div id="myPageTop">
+    <table>
+        <tr>
+            <td>
+                <label>请输入关键字：</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input id="tipinput"/>
+            </td>
+        </tr>
+    </table>
+</div>
+<div id="panel"></div>
+<script type="text/javascript">
+    //地图加载
+    var map = new AMap.Map("container", {
+        resizeEnable: true,
+        zoom:15,
+        zooms:[3,20]
+    });
+    //定位标注当前位置
+    map.plugin('AMap.Geolocation', function() {
+        geolocation = new AMap.Geolocation({
+	        enableHighAccuracy: true,//是否使用高精度定位，默认:true
+	        timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+	        maximumAge: 0, //定位结果缓存0毫秒，默认：0
+            convert: true, //自动偏移坐标，偏移后的坐标为高德坐标，默认：true
+            showButton: true, //显示定位按钮，默认：true
+            showMarker: true, //定位成功后在定位到的位置显示点标记，默认：true
+            showCircle: true, //定位成功后用圆圈表示定位精度范围，默认：true
+            panToLocation: true, //定位成功后将定位到的位置作为地图中心点，默认：true
+	        buttonPosition:'LB',    //定位按钮的停靠位置  LB左下角、  RB右下角
+	        buttonOffset: new AMap.Pixel(10, 20), //定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+	        zoomToAccuracy: true,   //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+        });
+        
+        map.addControl(geolocation);
+        geolocation.getCurrentPosition();
+      	AMap.event.addListener(geolocation, 'complete', onComplete); //返回定位信息
+        AMap.event.addListener(geolocation, 'error', onError); //返回定位出错信息
+ 
+    });
+    //解析定位结果
+    var city;
+    function onComplete(data) {
+        var str = [];
+        city = data.addressComponent.citycode;
+        str.push('定位结果：' + data.position);
+        str.push('定位类别：' + data.location_type);
+        if(data.accuracy){
+             str.push('精度：' + data.accuracy + ' 米');
+        }//如为IP精确定位结果则没有精度信息
+        str.push('是否经过偏移：' + (data.isConverted ? '是' : '否'));
+        
+        var lnglatXY = [data.position.getLng(), data.position.getLat()];//地图上所标点的坐标
+        AMap.service('AMap.Geocoder',function() {//回调函数
+            geocoder = new AMap.Geocoder({
+            });
+            geocoder.getAddress(lnglatXY, function (status, result) {
+                if (status === 'complete' && result.info === 'OK') {
+                    //获得了有效的地址信息:
+                    //即，result.regeocode.formattedAddress
+                    console.log(result.regeocode.formattedAddress);
+                    var address = result.regeocode.formattedAddress;
+                    str.push('详细地址：' + address);
+                    alert(str.join(' | '));
+                } else {
+                	alert(str.join(' | '));//获取地址失败
+                }
+            });
+        })
+       
+    }
+    //解析定位错误信息
+    function onError(data) {
+       alert('定位失败，原因：'+data.message);
+    }
+    
+    //为地图注册click事件获取鼠标点击出的经纬度坐标
+    var clickEventListener = map.on('click', function(e) {
+        var lng = e.lnglat.getLng();
+        var lat = e.lnglat.getLat();
+        
+        var str = [];
+        str.push(lng);
+        str.push(lat);
+        var infoWindow = new AMap.InfoWindow({
+            autoMove: true,
+            offset: {x: 0, y: -30}
+        });
+        
+        var marker = new AMap.Marker({
+           // map: map, //map上显示标注
+            position: str
+        });
+        
+        infoWindow.setContent("经度："+lng+"纬度"+lat);
+  	    infoWindow.open(map, marker.getPosition());
+    });
+    
+    //输入搜索点信息
+    var autoOptions = {
+	    city:city,//在规定城市搜索、默认全国
+        input: "tipinput"
+    };
+    var auto = new AMap.Autocomplete(autoOptions);
+    var placeSearch = new AMap.PlaceSearch({
+  	    pageSize: 5, // 单页显示结果条数
+        pageIndex: 1, // 页码
+        children: 0, //不展示子节点数据
+        city: city, // 兴趣点城市
+        citylimit: true,  //是否强制限制在设置的城市内搜索
+        panel: "panel", // 结果列表将在此容器中进行展示。
+        autoFitView: true, // 是否自动调整地图视野使绘制的 Marker点都处于视口的可见范围
+        extensions: 'base', //返回基本地址信息  */
+        map: map// 展现结果的地图实例
+    });  //构造地点查询类
+    AMap.event.addListener(auto, "select", select);//注册监听，当选中某条记录时会触发
+    
+    function select(e) {
+        placeSearch.setCity(e.poi.adcode);
+        placeSearch.search(e.poi.name);  //关键字查询查询
+        //设置搜索位置定点标注
+        if (e.poi && e.poi.location) {
+            map.setZoom(15);
+            map.setCenter(e.poi.location);
+            var id = e.poi.id;
+            //详情查询
+            placeSearch.getDetails(id, function(status, result) {
+                if (status === 'complete' && result.info === 'OK') {
+                    placeSearch_CallBack(result);
+                }
+            });
+        }       
+    }
+    
+  
+  
+    var infoWindow = new AMap.InfoWindow({
+        autoMove: true,
+        offset: {x: 0, y: -30}
+    });
+    
+    //回调函数
+    function placeSearch_CallBack(data) {
+      var poiArr = data.poiList.pois;
+      //添加marker
+      var marker = new AMap.Marker({
+          map: map,
+          position: poiArr[0].location
+      });
+      map.setCenter(marker.getPosition());     
+      infoWindow.setContent(createContent(poiArr[0]));
+	  infoWindow.open(map, marker.getPosition());
+    }
+    
+    function createContent(poi) {  //信息窗体内容
+        var s = [];
+        s.push("<b>名称：" + poi.name+"</b>");
+        s.push("地址：" + poi.address);
+        s.push("电话：" + poi.tel);
+        s.push("类型：" + poi.type);
+        return s.join("<br>");
+    }
+</script>
+</body>
+

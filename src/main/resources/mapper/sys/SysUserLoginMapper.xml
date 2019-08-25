@@ -1,0 +1,9 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cy.pj.sys.dao.SysUserLoginDao">
+ <insert id="saveLoginInfo">
+ insert into sys_login_log values(null,#{username},#{loginTime},#{location},#{ip},#{system},#{browser})
+ </insert>
+ <!--查询主页记录  -->
+</mapper>

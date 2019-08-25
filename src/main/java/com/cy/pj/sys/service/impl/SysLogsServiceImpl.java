@@ -29,6 +29,7 @@ public class SysLogsServiceImpl implements SysLogsService{
 	@Autowired
 	private SysLogDao sysLogDao;
 	//查询登录日志
+	@RequiredLog("查看登录日志")
 	@Override
 	public PageObject<SysLoginLog> findLoginPageObjects(String name, Integer pageCurrent) {
 
@@ -49,7 +50,7 @@ public class SysLogsServiceImpl implements SysLogsService{
 		pageObject.setRowCount(rows);
 		return  pageObject;
 }
-	
+	@RequiredLog("查询系统日志")
 	@Override
 	public PageObject<SysLog> findPageObjects(String name, Integer pageCurrent) {
 		//验证参数有有效性
@@ -70,6 +71,7 @@ public class SysLogsServiceImpl implements SysLogsService{
 				return  pageObject;
 	}
 	//删除系统日志
+	@RequiredLog("删除系统日志")
 	@Override
 	public int deleteObjects(Integer... ids) {
 		//1.判定参数合法性

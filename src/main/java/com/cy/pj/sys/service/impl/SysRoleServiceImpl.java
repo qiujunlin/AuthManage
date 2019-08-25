@@ -4,10 +4,12 @@ import java.util.List;
 
 import javax.swing.text.html.parser.Entity;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cy.pj.common.annotation.RequiredLog;
 import com.cy.pj.common.exception.ServiceException;
 import com.cy.pj.common.vo.CheckBox;
 import com.cy.pj.common.vo.PageObject;
@@ -33,7 +35,9 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole> implements SysR
 		this.sysRoleMenuDao = sysRoleMenuDao;
 		this.SysUserRoleDao = sysUserRoleDao;
 	}
-
+	@RequiredLog("删除角色")
+	@Transactional
+	@RequiresPermissions("sys:role:delete")
 	@Override
 	public int deleteObject(Integer id) {
 		if(id==null) throw new IllegalArgumentException("请选择id！");
@@ -43,6 +47,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole> implements SysR
 		if(row==0) throw new ServiceException("需要删除的记录可能不存在");
 		return row;
 	}
+	@RequiresPermissions("sys:role:add")
 	@Override
 	@Transactional(rollbackFor = Throwable.class)
 	public int saveObjec(SysRole entity, Integer[] menuIds) {
@@ -59,7 +64,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole> implements SysR
 		//if (rows > 0) throw new ServiceException("抛出了一个异常");
 		return rows;
 	}
-
+   
 	@Override
 	public SysRoleMenuVo findObjectById(Integer id) {
 		//判断参数是否合法
@@ -70,7 +75,9 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole> implements SysR
 
 		return sysRoleMenuVo;
 	}
+	@RequiresPermissions("sys:role:update")
 	@Override
+	@Transactional
 	public int updateObject(SysRole entity,Integer[] menuIds) {
 		//判断参数合法性
 		if(entity==null) throw new ServiceException("传入参数不能为空");

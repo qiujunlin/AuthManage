@@ -28,63 +28,63 @@ import com.cy.pj.sys.dao.SysUserRoleDao;
 import com.cy.pj.sys.entity.SysUser;
 @Service
 public class ShiroUserRealm  extends AuthorizingRealm {
-   @Autowired
-   SysUserDao sysUserDao;
-      @Override
-    	public void setCredentialsMatcher(CredentialsMatcher credentialsMatcher) {
-     HashedCredentialsMatcher hashedCredentialsMatcher = 
-    		 new HashedCredentialsMatcher();
-        hashedCredentialsMatcher.setHashAlgorithmName("MD5");
-        hashedCredentialsMatcher.setHashIterations(1);
-        
-    	  super.setCredentialsMatcher(hashedCredentialsMatcher);
-    	}
-      @Autowired
-     SysUserRoleDao sysUserRoleDao;
-     @Autowired
-      SysRoleMenuDao sysRoleMenuDao;
-     @Autowired
-     SysMenuDao sysMenuDao;
+	@Autowired
+	SysUserDao sysUserDao;
+	@Override
+	public void setCredentialsMatcher(CredentialsMatcher credentialsMatcher) {
+		HashedCredentialsMatcher hashedCredentialsMatcher = 
+				new HashedCredentialsMatcher();
+		hashedCredentialsMatcher.setHashAlgorithmName("MD5");
+		hashedCredentialsMatcher.setHashIterations(1);
+
+		super.setCredentialsMatcher(hashedCredentialsMatcher);
+	}
+	@Autowired
+	SysUserRoleDao sysUserRoleDao;
+	@Autowired
+	SysRoleMenuDao sysRoleMenuDao;
+	@Autowired
+	SysMenuDao sysMenuDao;
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        SysUser  sysUser =(SysUser)principals.getPrimaryPrincipal();
+		SysUser  sysUser =(SysUser)principals.getPrimaryPrincipal();
 		//1，基于用户获取id
-        int userId = sysUser.getId();
-        //2.基于id获取角色、
-        List<Integer> roleIds = sysUserRoleDao.findRoleIdsByUserId(userId);
-        Integer[] array= {};
-        //3.基于角色获取菜单id
-        List<Integer>  menuIds = sysRoleMenuDao.findMenuIdsByRoleIds(roleIds.toArray(array));
-        //4.基于菜单获取权限
-        List<String>  authList = sysMenuDao.findPermissions(menuIds.toArray(array));
-        //5.返回对象
-        Set<String> set = new HashSet<>();
-        for (String string : authList) {
+		int userId = sysUser.getId();
+		//2.基于id获取角色、
+		List<Integer> roleIds = sysUserRoleDao.findRoleIdsByUserId(userId);
+		Integer[] array= {};
+		//3.基于角色获取菜单id
+		List<Integer>  menuIds = sysRoleMenuDao.findMenuIdsByRoleIds(roleIds.toArray(array));
+		//4.基于菜单获取权限
+		List<String>  authList = sysMenuDao.findPermissions(menuIds.toArray(array));
+		//5.返回对象
+		Set<String> set = new HashSet<>();
+		for (String string : authList) {
 			set.add(string);
 		}
-        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        authorizationInfo.setStringPermissions(set);
-        return authorizationInfo;
+		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+		authorizationInfo.setStringPermissions(set);
+		return authorizationInfo;
 	}
 
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        UsernamePasswordToken token2 =
-        		(UsernamePasswordToken)token;
-        //获取对象
-        String username = token2.getUsername();
-        SysUser user = sysUserDao.findUserByUserName(username);
-        if (user==null) {
-        	throw new UnknownAccountException();
-        }
-        if(user.getValid()==0) throw new LockedAccountException();
+		UsernamePasswordToken token2 =
+				(UsernamePasswordToken)token;
+		//获取对象
+		String username = token2.getUsername();
+		SysUser user = sysUserDao.findUserByUserName(username);
+		if (user==null) {
+			throw new UnknownAccountException();
+		}
+		if(user.getValid()==0) throw new LockedAccountException();
 		//获取加密的密码
-        String password =  user.getPassword();
-       ByteSource credentialsSalt = 
-    		   ByteSource.Util.bytes(user.getSalt());
-        //返回对象
-        //
-        //
+		String password =  user.getPassword();
+		ByteSource credentialsSalt = 
+				ByteSource.Util.bytes(user.getSalt());
+		//返回对象
+		//
+		//
 		AuthenticationInfo authenticationInfo = 
 				new SimpleAuthenticationInfo(
 						user, 
@@ -93,8 +93,8 @@ public class ShiroUserRealm  extends AuthorizingRealm {
 						username
 						);
 		return authenticationInfo;
-		
-		
+
+
 	}
 
 }

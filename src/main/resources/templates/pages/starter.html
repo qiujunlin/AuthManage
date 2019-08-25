@@ -180,16 +180,15 @@ desired effect
               <!-- The user image in the navbar-->
               <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">睡不着显示</span>
+              <span class="hidden-xs" id="topusername"></span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
               <li class="user-header">
                 <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
-                <p>
-                  Alexander Pierce - Web Developer
-                  <small>Member since Nov. 2012</small>
+                <p id="rightusername">
+                 
                 </p>
               </li>
               <!-- Menu Body -->
@@ -238,7 +237,7 @@ desired effect
           <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Alexander Pierce</p>
+          <p id="leftusername"></p>
           <!-- Status -->
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
@@ -464,6 +463,7 @@ desired effect
 	   doLoadgit("load-github-id","https://github.com/qiujunlin/AuthManage.git")
 	  //d地图
 	  doLoadMap("load-map-id","sys/map")
+	  doGetLoginSession();
    });
    /* 地位系统页 */
    function doLoadUI(id,url){
@@ -504,7 +504,15 @@ desired effect
    function doLoadmap() {
 	   document.getElementById("mainContentId").innerHTML = '<object type="text/html" data="sys/map" width=100% height=500px></object>';
 	     }
-  
+  /* 获取当前登录用户信息 */
+function  doGetLoginSession(){
+	  var url ="user/doGetLoginSession";
+	  $.get(url,function(result){
+		  $("#topusername").html(result.data)
+		  $("#leftusername").html(result.data)
+		  $("#rightusername").html(result.data)
+	  })
+  }
   
 </script>
 </body>

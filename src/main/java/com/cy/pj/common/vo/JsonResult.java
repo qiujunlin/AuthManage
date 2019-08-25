@@ -3,8 +3,10 @@ package com.cy.pj.common.vo;
 import java.io.Serializable;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 //封装返回给控制层的数据
 @Data
+@Accessors(chain = true)
 public class JsonResult implements Serializable {
 	private static final long serialVersionUID = -5816153407506859650L;
 	private String message="ok";//封装信息 状态以及异信息

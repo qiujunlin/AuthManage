@@ -31,7 +31,8 @@ public class SysUserServiceImpl implements SysUserService  {
 	SysUserDao sysUserDao;
 	@Autowired
 	SysUserRoleDao sysUserRoleDao;
-
+	@RequiredLog("查询用户")
+	@RequiresPermissions("sys:user:view")
 	public PageObject<SysUserDeptVo> findPageObjects(String name, Integer pageCurrent) {
 		//验证参数有有效性
 		if(pageCurrent==null||pageCurrent<1) throw new IllegalArgumentException("传入的页码错误！！");
@@ -51,7 +52,7 @@ public class SysUserServiceImpl implements SysUserService  {
 		return  pageObject;
 
 	}
-	@RequiresPermissions("sys.user.valid")
+	@RequiresPermissions("sys:user:valid")
 	@Override
 	@RequiredLog("启用禁用")
 	public int validById(Integer id, Integer valid, String modifiedUser) {
@@ -66,10 +67,10 @@ public class SysUserServiceImpl implements SysUserService  {
 		//4.修改状态
 		int row=0;
 		row = sysUserDao.validById(id, valid, modifiedUser);
-
-
 		return row;
 	}
+	@RequiredLog("添加用户")
+	@RequiresPermissions("sys:user:add")
 	@Override
 	public int saveObject(SysUser entity, Integer[] roleIds) {
 		//1.验证数据合法性
@@ -117,6 +118,9 @@ public class SysUserServiceImpl implements SysUserService  {
 		map.put("roleIds", roleIds);
 		return map;
 	}
+	@RequiredLog("修改用户")
+	@Transactional
+	@RequiresPermissions("sys:user:update")
 	@Override
 	public int updateObject(SysUser entity,Integer[] roleIds) {
 		//1.参数有效性验证
@@ -136,6 +140,8 @@ public class SysUserServiceImpl implements SysUserService  {
 		//4.返回结果
 		return rows;
 	}	
+	@RequiredLog("修改密码")
+	@RequiresPermissions("sys:password:update")
 	@Override
 	public int updatePassword(String oldPassword, String newPassword, String cfgPassword) {
 		if(StringUtils.isEmpty(newPassword))

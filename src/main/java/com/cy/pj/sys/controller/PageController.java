@@ -20,7 +20,7 @@ public class PageController {
    }
    @RequestMapping("doLoginUI")
    public String doLoginUI() {
-	   return "Mylogin";
+	   return "MyLogin";
    }
    
 	/*

@@ -37,14 +37,21 @@ import eu.bitwalker.useragentutils.UserAgent;
 public class SysUserController {
 	@Autowired
 	SysUserService sysUserService;
+	@RequestMapping("doGetLoginSession")
+	public JsonResult doGetLoginSession() {
+		SysUser user = (SysUser)SecurityUtils.getSubject().getPrincipal();
+		System.out.println(" 当前登录用户"+user.getUsername());
+		return new JsonResult().setData(user.getUsername());
+	}
 	@RequestMapping("doFindPageObjects")
 	public JsonResult doFindPageObjects(String name,Integer pageCurrent) {
 		return new JsonResult(sysUserService.findPageObjects(name, pageCurrent));
 	}
 	@RequestMapping("doValidById")
 	public JsonResult validById(Integer id, Integer valid){
-		System.out.println(id+" "+valid);
-		sysUserService.validById(id, valid, "admin");
+            SysUser user = (SysUser)SecurityUtils.getSubject().getPrincipal();
+		//获取对象
+		sysUserService.validById(id, valid, user.getUsername());
 		return new JsonResult("修改成功");
 	}
 	@RequestMapping("doSaveObject")

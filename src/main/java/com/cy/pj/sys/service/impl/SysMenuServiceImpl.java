@@ -3,6 +3,7 @@ package com.cy.pj.sys.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -39,6 +40,9 @@ public class SysMenuServiceImpl implements SysMenuService {
 		List<Node> list = sysMenuDao.findZtreeMenuNodes();
 		return list;
 	} 
+	@RequiredLog("添加菜单")
+	@Transactional
+	@RequiresPermissions("sys:menu:add")
 	@Override
 	public int insertObject(SysMenu sysMenu) {
 		if(sysMenu==null) throw new ServiceException("插入数据不能为空");
@@ -55,6 +59,9 @@ public class SysMenuServiceImpl implements SysMenuService {
 
 		return row;
 	}
+	@RequiredLog("修改菜单")
+	
+	@RequiresPermissions("sys:menu:update")
 	@Override
 	public int updateObject(SysMenu entity) {
         if(entity==null) throw new ServiceException("数据不能为空");
@@ -63,6 +70,9 @@ public class SysMenuServiceImpl implements SysMenuService {
        if(row==0) throw new ServiceException("记录可能为空");
 		return  row;
 	}
+	@Transactional
+	@RequiredLog("删除菜单")
+	@RequiresPermissions("sys:menu:delete")
 	@Override
 		public int deleteObject(Integer id) {
 			//1.验证数据的合法性

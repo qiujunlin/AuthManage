@@ -3,6 +3,7 @@ package com.cy.pj.sys.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -24,11 +25,13 @@ public class SysDeptServiceImpl implements SysDeptService {
 	private SysDeptDao sysDeptDao;
 	@Autowired
 	private SysUserDao sysUserDao;
-	@RequiredLog("查询菜单")
+	@RequiredLog("查询部门菜单")
 	@Override
 	public List<Map<String, Object>> findObjects() {
 		return sysDeptDao.findObjects();
-	}
+	} 
+	@RequiredLog("删除部门")
+	@RequiresPermissions("sys:dept:delete")
 	@Override
 	public int deleteObject(Integer deptId) {
 		//1.判断传入id是否为空
@@ -50,6 +53,8 @@ public class SysDeptServiceImpl implements SysDeptService {
 		List<Node> list = sysDeptDao.findZtreeDeptNodes();
 		return list;
 	}
+	@RequiredLog("删除部门")
+	@RequiresPermissions("sys:dept:add")
 	@Override
 	public int insertObject(SysDept entity) {
 		//1.判断数据是否为空
@@ -62,6 +67,8 @@ public class SysDeptServiceImpl implements SysDeptService {
 		if(rows==0) throw new ServiceException("插入失败！");
 		return rows;
 	}
+	@RequiredLog("修改菜单")
+	@RequiresPermissions("sys:dept:update")
 	@Override
 	public int updateObject(SysDept entity) {
 		//1.判断数据是否为空

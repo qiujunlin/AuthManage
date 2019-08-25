@@ -11,6 +11,10 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
     
+
+logging:
+  level: 
+   com.cy.pj.sys.dao: debug
 #actuator
 management:
   endpoints:
