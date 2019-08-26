@@ -48,11 +48,11 @@ qiujunlin | 密码不告诉 |超级管理员，拥有所有增删改查权限
     + 任务日志（待做）
 + （未完待续）
 ### 数据库
-####模块关系
+#### 模块关系
 
 ![model](https://github.com/qiujunlin/AuthManage/blob/master/pages/%E5%85%B3%E7%B3%BB%E8%AF%B4%E6%98%8E.png)
 
-####表关系
+#### 表关系
 
 ![table](https://github.com/qiujunlin/AuthManage/blob/master/pages/%E8%A1%A8%E5%85%B3%E7%B3%BB.png)
 
