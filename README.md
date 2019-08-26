@@ -19,8 +19,8 @@ qiujunlin | 密码不告诉 |超级管理员，拥有所有增删改查权限
 
 ### 运用技术
 ### 前端
-[AminTLE](http://adminlte.la998.com)
-[Jquery](https://jquery.com/)
+- [AminTLE](http://adminlte.la998.com)
+- [Jquery](https://jquery.com/)
 ### 后端
 - [JDk1.8](https://www.oracle.com/technetwork/java/javase/downloads/index.html)
 - [Spring Boot2.1.7](https://spring.io/projects/spring-boot)
