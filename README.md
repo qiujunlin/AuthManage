@@ -16,12 +16,12 @@ http://116.62.46.71/doIndexUI
 ---|---|---
 admin | 123456 | 普通登录用户，拥有查看权限，不能进行增加删改除
 qiujunlin | 密码不告诉 |超级管理员，拥有所有增删改查权限
-技术
+
+### 运用技术
 ### 前端
 [AminTLE](http://adminlte.la998.com)
-###后端
-主要技术
-
+[Jquery](https://jquery.com/)
+### 后端
 - [JDk1.8](https://www.oracle.com/technetwork/java/javase/downloads/index.html)
 - [Spring Boot2.1.7](https://spring.io/projects/spring-boot)
 - [MyBatis2.0.1](http://www.mybatis.org/mybatis-3/zh/index.html)
@@ -50,13 +50,23 @@ qiujunlin | 密码不告诉 |超级管理员，拥有所有增删改查权限
 ### 数据库
 表设计
 ### 系统预览
+----
+
+![index](https://github.com/qiujunlin/AuthManage/blob/master/pages/index.png)![role](https://github.com/qiujunlin/AuthManage/blob/master/pages/role.png)
+![dept](https://github.com/qiujunlin/AuthManage/blob/master/pages/dept.png)
+![user](https://github.com/qiujunlin/AuthManage/blob/master/pages/user.png)
+![menu](https://github.com/qiujunlin/AuthManage/blob/master/pages/menu.png)
+![log](https://github.com/qiujunlin/AuthManage/blob/master/pages/log.png)
+
+----
 ### 使用步骤
 - 通过git下载源码
 - 创建数据库jtsys，数据库编码为UTF-8
-- 执行auth.sql文件，初始化数据【按需导入表结构及数据】
+- 执行sys.sql文件，初始化数据
 - 修改application.yml文件，更新MySQL账号和密码
 - Eclipse、Sts启动运行项目
 - 项目访问路径：[http://localhost:80/](http://localhost:8080/)
+-----
 ### 项目完成路线
 - 4.20 开始设计项目，决定选用前端AdminTLE模板，设计数据库，角色，菜单，用户，部门
 - 4.22 搭建好了项目结构
