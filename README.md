@@ -19,9 +19,8 @@ qiujunlin | 密码不告诉 |超级管理员，拥有所有增删改查权限
 技术
 ### 前端
 [AminTLE](http://adminlte.la998.com)
-###后端
-主要技术
-
+[Jquery](https://jquery.com/)
+### 后端
 - [JDk1.8](https://www.oracle.com/technetwork/java/javase/downloads/index.html)
 - [Spring Boot2.1.7](https://spring.io/projects/spring-boot)
 - [MyBatis2.0.1](http://www.mybatis.org/mybatis-3/zh/index.html)
@@ -57,6 +56,7 @@ qiujunlin | 密码不告诉 |超级管理员，拥有所有增删改查权限
 ![user](https://github.com/qiujunlin/AuthManage/blob/master/pages/user.png)
 ![menu](https://github.com/qiujunlin/AuthManage/blob/master/pages/menu.png)
 ![log](https://github.com/qiujunlin/AuthManage/blob/master/pages/log.png)
+
 ----
 ### 使用步骤
 - 通过git下载源码
@@ -65,6 +65,7 @@ qiujunlin | 密码不告诉 |超级管理员，拥有所有增删改查权限
 - 修改application.yml文件，更新MySQL账号和密码
 - Eclipse、Sts启动运行项目
 - 项目访问路径：[http://localhost:80/](http://localhost:8080/)
+-----
 ### 项目完成路线
 - 4.20 开始设计项目，决定选用前端AdminTLE模板，设计数据库，角色，菜单，用户，部门
 - 4.22 搭建好了项目结构
