@@ -3,50 +3,50 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cy.pj.sys.dao.SysLogDao">
-   <!--查询登录日志  -->
-   <select id="findPageLoginObjects"
-            resultType="com.cy.pj.sys.entity.SysLoginLog">
-         select *
-         from sys_login_log
-         <include refid="queryWhereId"/>
-order by login_time desc
-         limit #{startIndex},#{pageSize}    
-</select>
-<!--删除系统日志  -->
-   <delete id="deleteObjects">
-       delete from sys_logs
-       where id in 
-      <foreach collection="ids" open="(" close=")" separator="," item="id">#{id}</foreach>
-   </delete>
-   <!--查询系统日志  -->
-   <select id="findPageObjects"
-            resultType="com.cy.pj.sys.entity.SysLog">
-         select *
-         from sys_Logs
-         <include refid="queryWhereId"/>
-order by createdTime desc
-         limit #{startIndex},#{pageSize}    
-</select>
-    
-    <select id="getRowCount"
-            resultType="int">
-          select count(*) 
-          from sys_Logs
-          <include refid="queryWhereId"/>
-    </select>
-    <!-- 借助此元素对共性数据进行提取 -->
-    <sql id="queryWhereId">
-          <where>
-            <if test="name!=null and name!=''">
-               username like concat("%",#{name},"%")
-            </if>
-          </where>
-    </sql>
-<insert id="insertObject">
-       insert into sys_logs
-       (username,operation,method,params,time,ip,createdTime)
-       values
-(#{username},#{operation},#{method},#{params},#{time},#{ip},#{createdTime})
-</insert>
+	<!--查询登录日志 -->
+	<select id="findPageLoginObjects"
+		resultType="com.cy.pj.sys.entity.SysLoginLog">
+		select *
+		from sys_login_log
+		<include refid="queryWhereId" />
+		order by login_time desc
+		limit #{startIndex},#{pageSize}
+	</select>
+	<!--删除系统日志 -->
+	<delete id="deleteObjects">
+		delete from sys_logs
+		where id in
+		<foreach collection="ids" open="(" close=")" separator=","
+			item="id">#{id}</foreach>
+	</delete>
+	<!--查询系统日志 -->
+	<select id="findPageObjects"
+		resultType="com.cy.pj.sys.entity.SysLog">
+		select *
+		from sys_logs
+		<include refid="queryWhereId" />
+		order by createdTime desc
+		limit #{startIndex},#{pageSize}
+	</select>
+
+	<select id="getRowCount" resultType="int">
+		select count(*)
+		from sys_logs
+		<include refid="queryWhereId" />
+	</select>
+	<!-- 借助此元素对共性数据进行提取 -->
+	<sql id="queryWhereId">
+		<where>
+			<if test="name!=null and name!=''">
+				username like concat("%",#{name},"%")
+			</if>
+		</where>
+	</sql>
+	<insert id="insertObject">
+		insert into sys_logs
+		(username,operation,method,params,time,ip,createdTime)
+		values
+		(#{username},#{operation},#{method},#{params},#{time},#{ip},#{createdTime})
+	</insert>
 </mapper>
 
