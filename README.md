@@ -61,7 +61,7 @@ qiujunlin | 密码不告诉 |超级管理员，拥有所有增删改查权限
 ### 使用步骤
 - 通过git下载源码
 - 创建数据库jtsys，数据库编码为UTF-8
-- 执行auth.sql文件，初始化数据【按需导入表结构及数据】
+- 执行sys.sql文件，初始化数据
 - 修改application.yml文件，更新MySQL账号和密码
 - Eclipse、Sts启动运行项目
 - 项目访问路径：[http://localhost:80/](http://localhost:8080/)
