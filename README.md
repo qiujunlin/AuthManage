@@ -16,7 +16,8 @@ http://116.62.46.71/doIndexUI
 ---|---|---
 admin | 123456 | 普通登录用户，拥有查看权限，不能进行增加删改除
 qiujunlin | 密码不告诉 |超级管理员，拥有所有增删改查权限
-技术
+
+### 运用技术
 ### 前端
 [AminTLE](http://adminlte.la998.com)
 [Jquery](https://jquery.com/)
