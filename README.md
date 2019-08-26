@@ -50,6 +50,14 @@ qiujunlin | 密码不告诉 |超级管理员，拥有所有增删改查权限
 ### 数据库
 表设计
 ### 系统预览
+----
+
+![index](https://github.com/qiujunlin/AuthManage/blob/master/pages/index.png)![role](https://github.com/qiujunlin/AuthManage/blob/master/pages/role.png)
+![dept](https://github.com/qiujunlin/AuthManage/blob/master/pages/dept.png)
+![user](https://github.com/qiujunlin/AuthManage/blob/master/pages/user.png)
+![menu](https://github.com/qiujunlin/AuthManage/blob/master/pages/menu.png)
+![log](https://github.com/qiujunlin/AuthManage/blob/master/pages/log.png)
+----
 ### 使用步骤
 - 通过git下载源码
 - 创建数据库jtsys，数据库编码为UTF-8
