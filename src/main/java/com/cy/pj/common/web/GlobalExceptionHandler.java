@@ -40,7 +40,6 @@ public class GlobalExceptionHandler {
 		}else {
 			r.setMessage("系统维护中");
 		}
-		e.printStackTrace();
 		return r;
 	}
 }

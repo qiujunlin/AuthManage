@@ -60,7 +60,6 @@ public class SysMenuServiceImpl implements SysMenuService {
 		return row;
 	}
 	@RequiredLog("修改菜单")
-	
 	@RequiresPermissions("sys:menu:update")
 	@Override
 	public int updateObject(SysMenu entity) {

@@ -28,6 +28,8 @@ public class SysLogsServiceImpl implements SysLogsService{
 
 	@Autowired
 	private SysLogDao sysLogDao;
+	@Autowired
+	private SysUserLoginDao sysUserLoginDao;
 	//查询登录日志
 	@RequiredLog("查看登录日志")
 	@Override
@@ -36,12 +38,21 @@ public class SysLogsServiceImpl implements SysLogsService{
 		//验证参数有有效性
 		if(pageCurrent==null||pageCurrent<1) throw new IllegalArgumentException("传入的页码错误！！");
 		//查询总记录数并校验
-		int rows = sysLogDao.getRowCount(name);
+		int rows = sysUserLoginDao.getRowCount(name);
 		if(rows==0) throw new ServiceException("记录不存在");
 		int pageSize = 12;
 		//查询当前页需要呈现的记录
 		int startIndex =(pageCurrent-1)*pageSize;
 		List<SysLoginLog> list = sysLogDao.findPageLoginObjects(name, startIndex, pageSize);
+		for (SysLoginLog sysLoginLog : list) {
+			String ip = sysLoginLog.getIp();
+			if("0:0:0:0:0:0:0:1".equals(ip)) continue;
+			
+		   ip= ip.substring(0, ip.lastIndexOf('.'))	+".****";
+		   sysLoginLog.setIp(ip);
+		   
+		    
+		}
 		PageObject<SysLoginLog> pageObject = new PageObject<>();
 		pageObject.setPageCount((rows-1)/pageSize+1);
 		pageObject.setPageCurrent(pageCurrent);
@@ -62,6 +73,7 @@ public class SysLogsServiceImpl implements SysLogsService{
 				//查询当前页需要呈现的记录
 				int startIndex =(pageCurrent-1)*pageSize;
 				List<SysLog> list = sysLogDao.findPageObjects(name, startIndex, pageSize);
+				
 				PageObject<SysLog> pageObject = new PageObject<>();
 				pageObject.setPageCount((rows-1)/pageSize+1);
 				pageObject.setPageCurrent(pageCurrent);

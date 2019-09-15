@@ -131,8 +131,10 @@ public class SysUserServiceImpl implements SysUserService  {
 		if(roleIds==null||roleIds.length==0)
 			throw new IllegalArgumentException("必须为其指定角色");
 		//其它验证自己实现，例如用户名已经存在，密码长度，...
+		
 		//2.更新用户自身信息
 		int rows=sysUserDao.updateObject(entity);
+		
 		//3.保存用户与角色关系数据
 		sysUserRoleDao.deleteObjectsByUserId(entity.getId());
 		sysUserRoleDao.insertObjects(entity.getId(),

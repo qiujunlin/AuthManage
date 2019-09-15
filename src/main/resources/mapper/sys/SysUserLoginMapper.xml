@@ -5,5 +5,10 @@
  <insert id="saveLoginInfo">
  insert into sys_login_log values(null,#{username},#{loginTime},#{location},#{ip},#{system},#{browser})
  </insert>
- <!--查询主页记录  -->
+ <select id="getRowCount" resultType="int"> select count(*) from sys_login_log 
+         <where>
+			<if test="name!=null and name!=''">
+				username like concat("%",#{name},"%")
+			</if>
+		</where></select>
 </mapper>
