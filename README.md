@@ -19,8 +19,8 @@ qiujunlin | 密码不告诉 |超级管理员，拥有所有增删改查权限
 
 ### 运用技术
 ### 前端
-[AminTLE](http://adminlte.la998.com)
-[Jquery](https://jquery.com/)
+- [AminTLE](http://adminlte.la998.com)
+- [Jquery](https://jquery.com/)
 ### 后端
 - [JDk1.8](https://www.oracle.com/technetwork/java/javase/downloads/index.html)
 - [Spring Boot2.1.7](https://spring.io/projects/spring-boot)
@@ -48,7 +48,14 @@ qiujunlin | 密码不告诉 |超级管理员，拥有所有增删改查权限
     + 任务日志（待做）
 + （未完待续）
 ### 数据库
-表设计
+#### 模块关系
+
+![model](https://github.com/qiujunlin/AuthManage/blob/master/pages/%E5%85%B3%E7%B3%BB%E8%AF%B4%E6%98%8E.png)
+
+#### 表关系
+
+![table](https://github.com/qiujunlin/AuthManage/blob/master/pages/%E8%A1%A8%E5%85%B3%E7%B3%BB.png)
+
 ### 系统预览
 ----
 
@@ -70,7 +77,7 @@ qiujunlin | 密码不告诉 |超级管理员，拥有所有增删改查权限
 ### 项目完成路线
 - 4.20 开始设计项目，决定选用前端AdminTLE模板，设计数据库，角色，菜单，用户，部门
 - 4.22 搭建好了项目结构
-- 4.27 完成了部门的增删改查，写好js太麻烦啦！！！:tw-1f62d:
+- 4.27 完成了部门的增删改查，写好js太麻烦啦！！！
 - 5.3 完成了菜单模块
 - 5.15 完成了角色 添加和修改角色权限花了挺长时间
 - 6.1  期间一段时间在忙公司的项目，没有做，这几天完成了用户功能
